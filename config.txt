@@ -13,6 +13,7 @@
 
     解压php-service.rar
     将php-service.exe和php-service.xml放入php根目录下，
+    并在目录下新建logs文件夹，如若想修改日志文件夹位置，可自行修改php-service.xml内容，
     打开（管理员模式）CMD，进入到PHP目录下执行，php-service.exe install
     之后打开PHP服务和关闭服务只需输入，net start/stop php即可
     卸载服务为，CMD执行php-service.exe uninstall
