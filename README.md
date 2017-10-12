@@ -15,6 +15,7 @@
     例：X:\PHP;
     打开cmd，执行 php -v 输出php版本号即可
 
+    解压php-service.rar
     将php-service.exe和php-service.xml放入php根目录下，
     打开（管理员模式）CMD，进入到PHP目录下执行，php-service.exe install
     之后打开PHP服务和关闭服务只需输入，net start/stop php即可
