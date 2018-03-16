@@ -81,7 +81,7 @@
 			<li role="presentation" class="divider"></li>
 			<li><a href="#"><span class="glyphicon glyphicon-user"></span> Login Page</a></li>
 		</ul>
-		<div class="attribution">More Templates <a href="#" title="模板之家">模板之家</a> - Collect from <a href="#" title="网页模板">网页模板</a></div>
+		<div class="attribution">More Templates </div>
 	</div><!--/.sidebar-->
 
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">			
@@ -110,6 +110,14 @@
 							<button id="btn_delete" type="button" class="btn btn-default">
 								<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
 							</button>
+							<div class="btn-group" role="group">
+								<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">导出<span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu">
+									<li><a href="#">excel</a></li>
+									<li><a href="#">......</a></li>
+								</ul>
+							</div>
 						</div>
 						<table id = "TableStyle"/>
 
@@ -182,7 +190,7 @@
 
 		$(function(){
 			$("#TableStyle").bootstrapTable({
-				url:"tables/data1.json",
+				url:"/welcome/data_list",
 				searchAlien:"right",//搜索框位置
 				search:true,//显示搜索框
 				striped: true, //行渐变色
@@ -206,13 +214,38 @@
 					align: 'center',
 					sortable: true,
 				},{
-					field: "name",
-					title: "NAME",
+					field: "username",
+					title: "USER-NAEM",
 					align: 'center',
 					sortable: true,
 				},{
-					field: "price",
-					title: "PRICE",
+					field: "fullname",
+					title: "FULL-NAME",
+					align: 'center',
+					sortable: true,
+				},{
+					field: "email",
+					title: "EMAIL",
+					align: 'center',
+					sortable: true,
+				},{
+					field: "date_added",
+					title: "DATE-ADDED",
+					align: 'center',
+					sortable: true,
+				},{
+					field: "dept",
+					title: "DEPT",
+					align: 'center',
+					sortable: true,
+				},{
+					field: "password",
+					title: "password",
+					align: 'center',
+					sortable: true,
+				},{
+					field: "status",
+					title: "status",
 					align: 'center',
 					sortable: true,
 				},{

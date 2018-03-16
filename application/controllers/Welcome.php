@@ -18,17 +18,14 @@ class Welcome extends CI_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
-	public function index()
-	{
-		$this->load->helper(array('form', 'url'));
+	public function index(){
 		//$this->load->database();
 		/*select buyplanno, nextinvestdate   from  sale_app_buyplaninfo  where buyplanno = '090005000026' 	and ((firstinvestdate = '20171121' ) or (nextinvestdate <= '20171121' ) ) */
 		/*var_dump($this->db->where(array('buyplanno' => '090005000026'))->get('sale_app_buyplaninfo')->row_array());*/
 		 $this->load->view('home.html');
 	}
 
-	 public function do_upload()
-    {
+	public function do_upload(){
         $config['upload_path']      = 'D:/';
         $config['allowed_types']    = 'gif|jpg|png|txt';
         
@@ -47,5 +44,10 @@ class Welcome extends CI_Controller {
 
             echo json_encode(array('k'=>2222));
         }
+    }
+
+    public function data_list(){
+    	$this->load->database();
+    	echo json_encode($this->db->get('user')->result_array());
     }
 }
