@@ -5,11 +5,12 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Lumino - Dashboard</title>
 
-	<link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-	<link href="/bootstrap/css/styles.css" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap-table.css">
-	<link rel="stylesheet" type="text/css" href="/bootstrap/css/file_input/fileinput.min.css">
-	<link rel="stylesheet" type="text/css" href="/bootstrap/css/file_input/fileinput-rtl.min.css"> 
+	<link href="/data/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+	<link href="/data/bootstrap/css/styles.css" rel="stylesheet"/>
+	<link href="/data/bootstrap/css/bootstrap-editable.css" rel="stylesheet" />
+	<link href="/data/bootstrap/css/bootstrap-table.css" rel="stylesheet" />
+	<link href="/data/bootstrap/css/file_input/fileinput.min.css" rel="stylesheet"/>
+	<link href="/data/bootstrap/css/file_input/fileinput-rtl.min.css" rel="stylesheet"/> 
 
 <!--[if lt IE 9]>
 <script src="js/html5shiv.js"></script>
@@ -163,6 +164,45 @@
 								</div><!-- /.modal-content -->
 							</div><!-- /.modal -->
 						</div><!-- 新增 -->
+
+						<div class="modal fade" id="modal_edit" tabindex="-1" role="dialog" aria-labelledby="modal-edit" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h4 class="modal-title" id="modal-edit">修改</h4>
+									</div>
+									<div class="modal-body">
+										<div class="form-group">
+											<label for="Email">Email address</label>
+											<input type="email" class="form-control" id="A" placeholder="Email">
+										</div>
+										<div class="form-group">
+											<label for="Password">Password</label>
+											<input type="text" class="form-control" id="B" placeholder="Password">
+										</div>
+										<div class="form-group">
+											<label>状态</label>
+												<label class="radio-inline">
+													<input type="radio" name="Attribute"  value=1 /> 正常
+												</label>
+												<label class="radio-inline">
+													<input type="radio" name="Attribute"  value=2 /> 锁定
+												</label>
+										</div>
+										<div class="checkbox">
+											<label>
+												<input type="checkbox"> Remember me
+											</label>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+										<button type="button" class="btn btn-primary">提交</button>
+									</div>
+								</div><!-- /.modal-content -->
+							</div><!-- /.modal -->
+						</div><!-- 修改 -->
+
 					</div>
 				</div>
 			</div>
@@ -170,129 +210,13 @@
 		
 
 	</div><!--/.mian-->   
-	<script src="/bootstrap/js/jquery-1.11.1.min.js"></script>
-	<script src="/bootstrap/js/bootstrap.min.js"></script>
-	<script src="/bootstrap/js/bootstrap-table.js"></script>
-	<script src="/bootstrap/js/file_input/fileinput.min.js"></script>
-	<script src="/bootstrap/js/bootbox.min.js"></script>
-	<script type="text/javascript">
-		
-		
-		function Editor(value){
-			$("#a").text(value);
-		};
-
-		function Delete(value){
-			window.alert(value);
-		};
-
-		
-
-		$(function(){
-			$("#TableStyle").bootstrapTable({
-				url:"/welcome/data_list",
-				searchAlien:"right",//搜索框位置
-				search:true,//显示搜索框
-				striped: true, //行渐变色
-				cache: false, //是否缓存
-				pagination:true,//是否显示分页
-				//pageNumber:1,//初始化加载第一页，默认第一页
-	            //pageSize: 10,//每页的记录行数（*）
-	            //pageList: [10, 25, 50, 100],//可供选择的每页的行数（*）
-				showRefresh:true,
-				showToggle:true,//切换视图
-				showColumns:true,//显示所有列
-				uniqueId:"id",//主键
-				sortName:"id",//默认排序字段
-				//sortOrder:"desc",//排序方式
-				toolbar:"#toolbar",
-				columns:[{
-					checkbox: true,
-				},{
-					field: "id",
-					title: "ID",
-					align: 'center',
-					sortable: true,
-				},{
-					field: "username",
-					title: "USER-NAEM",
-					align: 'center',
-					sortable: true,
-				},{
-					field: "fullname",
-					title: "FULL-NAME",
-					align: 'center',
-					sortable: true,
-				},{
-					field: "email",
-					title: "EMAIL",
-					align: 'center',
-					sortable: true,
-				},{
-					field: "date_added",
-					title: "DATE-ADDED",
-					align: 'center',
-					sortable: true,
-				},{
-					field: "dept",
-					title: "DEPT",
-					align: 'center',
-					sortable: true,
-				},{
-					field: "password",
-					title: "password",
-					align: 'center',
-					sortable: true,
-				},{
-					field: "status",
-					title: "status",
-					align: 'center',
-					sortable: true,
-				},{
-					field: "button",
-					title: "操作",
-					align: 'center',
-					formatter: function(value,row,index){
-	     				return "<a href='javascript:;' onclick='Editor("+row.id+");' class='glyphicon glyphicon-pencil' style = 'text-decoration:none'/>&nbsp;&nbsp;<a href='javascript:;' onclick='Delete("+row.id+");' class='glyphicon glyphicon-remove' style = 'text-decoration:none'>";
-	 				},
-				}]
-			});
-
-			$("#btn_delete").click(function(){
-				var opts = $("#TableStyle").bootstrapTable('getSelections');  
-		        if (opts == "") {  
-		            bootbox.alert({
-					  	size: "small",
-					  	title: "确认删除",
-					  	message: "请选择要删除的数据！", 
-					  	callback: function(){ /* your callback code */ }
-					}); 
-		        }  else {  
-		            var idArray = [];  
-		            for (var i = 0; i < opts.length; i++) {  
-		                idArray.push(opts[i].id);  
-		            }  
-		            bootbox.confirm({
-		            	size: "small",
-					  	title: "确认删除",
-					  	message: "确定删除图书ID：" + idArray + "吗？", 
-					  	callback: function(result){ if(result) alert("suscess");   }
-					});
-		        }  
-		    });
-
-			$("#File").fileinput({
-				showUpload:true,//显示上传按钮
-				showRemove:true,//显示移除按钮
-				uploadUrl:"/welcome/do_upload",
-				enctype : 'multipart/form-data',
-			}).on("fileerror", function(event, data, msg) {  
-            	console.log(msg);
-            })  .on("fileuploaded", function(event, data) {  
-                console.log(data);  
-        	});
-		});
-	</script>
+	<script src="/data/bootstrap/js/jquery-1.11.1.min.js"></script>
+	<script src="/data/bootstrap/js/bootstrap.min.js"></script>
+	<script src="/data/bootstrap/js/bootstrap-editable.min.js"></script>
+	<script src="/data/bootstrap/js/bootstrap-table.js"></script>
+	<script src="/data/bootstrap/js/file_input/fileinput.min.js"></script>
+	<script src="/data/bootstrap/js/bootbox.min.js"></script>
+	<script src="/data/js/home.js"></script>
 </body>
 
 </html>

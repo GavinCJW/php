@@ -75,10 +75,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 		'dsn'	=> '',
-		'hostname' => '10.10.78.107',
+		'hostname' => '127.0.0.1',
 		'username' => 'root',
-		'password' => 'xiaoniu66668888',
-		'database' => 'xcf_fund',
+		'password' => '170396',
+		'database' => 'test',
 		'dbdriver' => 'mysqli',
 		'dbprefix' => '',
 		'pconnect' => FALSE,
