@@ -89,5 +89,13 @@ $(function(){
 		showRemove:true,//显示移除按钮
 		uploadUrl:"/welcome/do_upload",
 		enctype : 'multipart/form-data',
+	}).on("fileuploaded", function(event, data) {
+        console.log(data);
+    });
+
+	$("#btn_excel").click(function(event) {
+		$("#btn_excel").attr("href","/welcome/exportExcel");
+		//window.open("/welcome/exportExcel");
 	});
+
 });
