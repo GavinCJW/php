@@ -69,7 +69,7 @@ class Welcome extends CI_Controller {
 		$this->load->database();
 		$db_content = $this->db->where("status",0)->get('ttt')->result_array();
 	
-		$this->Model_excelOper->exportExcel('赎回明细信息查询',$db_content,$data['exportFieldDes'],$data['exportDataDes']); 
+		$this->Model_excelOper->exportExcel('TEST',$db_content,$data['exportFieldDes'],$data['exportDataDes']); 
 		echo true;
 	} 
 
@@ -84,5 +84,11 @@ class Welcome extends CI_Controller {
 			);
     	$importData = $this->Model_excelOper->importExecl($_FILES['File']['tmp_name'],$importDataDes);
     	echo json_encode($importData);
-	}   
+	}  
+
+	function edit(){
+		$post = $this->input->post();
+		$this->load->database();
+    	echo json_encode($this->db->where('id',$post['id'])->update('ttt',$post));
+	}
 }

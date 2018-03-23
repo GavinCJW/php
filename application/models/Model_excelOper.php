@@ -9,7 +9,7 @@ class Model_excelOper extends CI_Model {
 		parent::__construct();
 		set_time_limit(1800);
 		ini_set('memory_limit', '1024M');
-		require_once( FCPATH.'data/PHPExcel-1.8/PHPExcel.php'); 
+		$this->load->library('PHPExcel');
 	}
 	
 	//获取excel表的内容

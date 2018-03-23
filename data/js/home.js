@@ -19,8 +19,10 @@ function box(type , title , message , func = null){
 function Editor(value){
 	var allTableData = $("#TableStyle").bootstrapTable('getData');
 	//console.log(allTableData[value].name);
+	$("#ID").val(allTableData[value].id);
 	$("#A").val(allTableData[value].name);
 	$("#B").val(allTableData[value].price);
+	$("#C").val(allTableData[value].date);
 }
 
 function Delete(value){
@@ -89,13 +91,43 @@ $(function(){
 		showRemove:true,//显示移除按钮
 		uploadUrl:"/welcome/do_upload",
 		enctype : 'multipart/form-data',
-	}).on("fileuploaded", function(event, data) {
-        console.log(data);
-    });
+	});
+
+    $("#btn_import").fileinput({
+		showUpload:true,//显示上传按钮
+		showRemove:true,//显示移除按钮
+		uploadUrl:"/welcome/importExecl",
+		enctype : 'multipart/form-data',
+		allowedFileExtensions: ['xlsx','xls'],
+	});
 
 	$("#btn_excel").click(function(event) {
 		$("#btn_excel").attr("href","/welcome/exportExcel");
 		//window.open("/welcome/exportExcel");
 	});
+
+	$("#btn_edit").click(function(){
+		var data = {
+			id: $("#ID").val(),
+			name:  $("#A").val(),
+			price: $("#B").val(),
+			date: $("#C").val()
+		};
+		console.log(data);
+		$.post("/welcome/edit",data,function (result) {if(result) box('alert','确认修改','修改成功！',function(){window.location.reload();});},'json')
+		.error(function() {box('alert','确认修改','修改失败！');});
+	});
+
+	$('#form_date').datetimepicker({
+        format: "yyyy-mm-dd hh:ii:ss",
+        weekStart: 1,
+        autoclose: true,
+        todayBtn: true,
+		todayHighlight: 1,
+		startView: 2,
+		minView: 2,
+		forceParse: 0,
+		startDate: $("#C").val(),
+    });
 
 });
