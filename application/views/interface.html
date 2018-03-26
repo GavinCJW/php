@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>TEST</title>
+
+	<link href="/data/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+	<link href="/data/bootstrap/css/styles.css" rel="stylesheet"/>
+	<link href="/data/bootstrap/css/bootstrap-editable.css" rel="stylesheet" />
+	<link href="/data/bootstrap/css/bootstrap-table.css" rel="stylesheet" />
+	<link href="/data/bootstrap/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+	<link href="/data/bootstrap/css/file_input/fileinput.min.css" rel="stylesheet"/>
+	<link href="/data/bootstrap/css/file_input/fileinput-rtl.min.css" rel="stylesheet"/> 
+
+<!--[if lt IE 9]>
+<script src="js/html5shiv.js"></script>
+<script src="js/respond.min.js"></script>
+<![endif]-->
+
+</head>
+
+<body>
+
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="panel panel-default">
+				<div class="panel-heading">Table</div>
+				<div class="panel-body">
+					<div id="toolbar" class="btn-group">
+						<button type="button" class="btn btn-default " data-toggle="modal" data-target="#myModal">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
+						</button>
+						<button id="btn_delete" type="button" class="btn btn-default">
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
+						</button>
+					</div>
+					<table id = "TableStyle"/>
+
+					<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h4 class="modal-title" id="myModalLabel">新增</h4>
+								</div>
+								<div class="modal-body">
+									<div class="form-group">
+										<label for="url">url名称</label>
+										<input type="text" class="form-control" id="url" placeholder="url名称">
+									</div>
+									<div class="form-group">
+										<label for="uptype">上传类型</label>
+										<select id="uptype" class="form-control">
+											<option value="1">Post</option>
+											<option value="0">Get</option>
+										</select>
+									</div>
+									<div class="form-group">
+										<label for="updata">上传数据</label>
+										<textarea id="updata" class="form-control" rows="3" placeholder="请书写JSON格式..."></textarea>
+									</div>
+									<div class="form-group">
+										<label for="retype">返回类型</label>
+										<select id="retype" class="form-control">
+											<option value="0">JSON</option>
+											<option value="1">Array</option>
+										</select>
+									</div>
+									<div class="form-group">
+									<div class="form-group">
+										<label for="redata">返回数据</label>
+										<textarea id="redata" class="form-control" rows="3" placeholder="请书写JSON格式..."></textarea>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+									<button id="btn_add" type="button" class="btn btn-primary">提交</button>
+								</div>
+							</div><!-- /.modal-content -->
+						</div><!-- /.modal -->
+					</div><!-- 新增 -->
+
+					<div class="modal fade" id="modal_edit" tabindex="-1" role="dialog" aria-labelledby="modal-edit" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h4 class="modal-title" id="modal-edit">修改</h4>
+								</div>
+								<div class="modal-body">
+									<input type="hidden" class="form-control" id="ID">
+									<div class="form-group">
+										<label for="Email">Name</label>
+										<input type="email" class="form-control" id="A" placeholder="Email">
+									</div>
+									<div class="form-group">
+										<label for="Password">Price</label>
+										<input type="number" class="form-control" id="B" placeholder="Password">
+									</div>
+									<div class="form-group">
+										<label for="Date">Date Picking</label>
+										<div class="input-group date col-md-5" id="form_date">
+											<input class="form-control" size="16" type="text" id="C" readonly>
+											<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+											<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+										</div>
+
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+									<button id="btn_edit" type="button" class="btn btn-primary">提交</button>
+								</div>
+							</div><!-- /.modal-content -->
+						</div><!-- /.modal -->
+					</div><!-- 修改 -->
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="/data/bootstrap/js/jquery-1.11.1.min.js"></script>
+	<script src="/data/bootstrap/js/bootstrap.min.js"></script>
+	<script src="/data/bootstrap/js/bootstrap-editable.min.js"></script>
+	<script src="/data/bootstrap/js/bootstrap-table.js"></script>
+	<script src="/data/bootstrap/js/file_input/fileinput.min.js"></script>
+	<script src="/data/bootstrap/js/bootbox.min.js"></script>
+	<script src="/data/bootstrap/js/bootstrap-datetimepicker.min.js"></script>
+	<script src="/data/js/interface.js"></script>
+</body>
+
+</html>

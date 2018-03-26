@@ -23,7 +23,7 @@ function isJsonFormat( str ) {
         return false;  
     }  
     return true;  
-}  
+} 
 
 function Editor(value){
 	var allTableData = $("#TableStyle").bootstrapTable('getData');
@@ -56,14 +56,15 @@ function Delete(value){
 $(function(){
 	var table = [
 		{checkbox: true,},
-		//{field: "id",title: "ID",align: 'center',sortable: true,},
-		{field: "name",title: "NAEM",align: 'center',sortable: true,},
-		{field: "date",title: "DATE",align: 'center',sortable: true,},
-		{field: "price",title: "PRICE",align: 'center',sortable: true,},
+		{field: "name",title: "url",align: 'center',sortable: true,},
+		{field: "type",title: "上传类型",align: 'center',sortable: true,},
+		{field: "data",title: "上传数据",align: 'center',sortable: true,},
+		{field: "dataType",title: "返回类型",align: 'center',sortable: true,},
+		{field: "result",title: "返回数据",align: 'center',sortable: true,},
 		{field: "button",title: "操作",align: 'center',formatter: function(value,row,index){return "<a href='#' onclick='Editor("+index+");' class='glyphicon glyphicon-pencil' style = 'text-decoration:none' data-toggle='modal' data-target='#modal_edit' />&nbsp;&nbsp;<a href='#' onclick='Delete("+row.id+");' class='glyphicon glyphicon-remove' style = 'text-decoration:none'>";},}
 	];
 	$("#TableStyle").bootstrapTable({
-		url:"/welcome/data_list",
+		url:"/User/list",
 		searchAlien:"right",//搜索框位置
 		search:true,//显示搜索框
 		striped: true, //行渐变色
@@ -78,7 +79,25 @@ $(function(){
 		columns:table,
 	});
 
-	$("#btn_delete").click(function(){
+	$("#btn_add").click(function(){
+		if(!isJsonFormat($("#updata").val()) || !isJsonFormat($("#redata").val())){
+			box('alert','确认增加','数据格式有误！');
+		}
+		else{
+				var data = {
+					url: $("#url").val(),
+					type:  $("#uptype").val(),
+					data: $("#updata").val(),
+					result: $("#redata").val(),
+					dataType:  $("#retype").val(),
+				};
+				console.log(data);
+				$.post("/User/insert",data,function (result) {console.log(result);/*if(result) box('alert','确认增加','增加成功！',function(){window.location.reload();});*/},'json')
+				.error(function() {box('alert','确认增加','增加失败！');});
+		}
+	});
+
+	/*$("#btn_delete").click(function(){
 		var opts = $("#TableStyle").bootstrapTable('getSelections');  
 		if (opts == "") {  
 			box('alert','确认删除','请选择要删除的数据！');
@@ -93,27 +112,7 @@ $(function(){
 						.error(function() {box('alert','确认删除','删除失败！');});
 			}); 
 		}  
-	});
-
-	$("#File").fileinput({
-		showUpload:true,//显示上传按钮
-		showRemove:true,//显示移除按钮
-		uploadUrl:"/welcome/do_upload",
-		enctype : 'multipart/form-data',
-	});
-
-    $("#btn_import").fileinput({
-		showUpload:true,//显示上传按钮
-		showRemove:true,//显示移除按钮
-		uploadUrl:"/welcome/importExecl",
-		enctype : 'multipart/form-data',
-		//allowedFileExtensions: ['xlsx','xls'],
-	});
-
-	$("#btn_excel").click(function(event) {
-		$("#btn_excel").attr("href","/welcome/exportExcel");
-		//window.open("/welcome/exportExcel");
-	});
+	});*/
 
 	$("#btn_edit").click(function(){
 		var data = {
@@ -127,16 +126,10 @@ $(function(){
 		.error(function() {box('alert','确认修改','修改失败！');});
 	});
 
-	$('#form_date').datetimepicker({
-        format: "yyyy-mm-dd hh:ii:ss",
-        weekStart: 1,
-        autoclose: true,
-        todayBtn: true,
-		todayHighlight: 1,
-		startView: 2,
-		minView: 2,
-		forceParse: 0,
-		startDate: $("#C").val(),
-    });
+	$("#btn_delete").click(function(){
+		$.post('https://payment.niudingfeng.com/payment-web/gateway/authSendSms.do', {param1: 'value1'}, function(data, textStatus, xhr) {
+			/*optional stuff to do after success */
+		});
+	});
 
 });

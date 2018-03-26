@@ -91,4 +91,25 @@ class Welcome extends CI_Controller {
 		$this->load->database();
     	echo json_encode($this->db->where('id',$post['id'])->update('ttt',$post));
 	}
+
+	function pdf(){
+		$pdf = PDF_new();
+		pdf_set_parameter($pdf, "textformat", "utf8");
+		pdf_set_parameter($pdf, "FontOutline", "SIMSUN=SIMSUN.TTF");
+
+		PDF_open_file($pdf, "PDFTest.pdf");
+
+		PDF_begin_page($pdf, 595, 842);
+
+		$MSMINCHO = PDF_findfont($pdf, "SIMSUN", "host", 1);
+		PDF_setfont($pdf, $MSMINCHO, 10);
+
+		PDF_show_xy($pdf, "aaaa", 150, 630);
+		PDF_show_xy($pdf, "aabcd", 150, 630);
+
+		PDF_end_page($pdf);
+
+		PDF_close($pdf);
+
+	}
 }
