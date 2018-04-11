@@ -3,14 +3,15 @@
 安装PHP：
     
 	下载并解压php-7.1.10-nts-Win32-VC14-x64.zip
+	
 	将php.ini-development或php.ini-production修改为php.ini
-    修改extension_dir的路径为php安装路径下的ext
-    例：extension_dir = "X:/PHP/ext"
-    选择自己需要的插件，只需将extension=xxx.dll前的;去掉即可
+	修改extension_dir的路径为php安装路径下的ext
+	例：extension_dir = "X:/PHP/ext"
+	选择自己需要的插件，只需将extension=xxx.dll前的;去掉即可
 
 设置php为系统服务：
     
-    设置php环境变量，在path下添加PHP的目录绝对路径，
+	设置php环境变量，在path下添加PHP的目录绝对路径，
     例：X:\PHP;
     打开cmd，执行 php -v 输出php版本号即可
 
