@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>TEST</title>
+
+	<link href="/data/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+	<link href="/data/bootstrap/css/styles.css" rel="stylesheet"/>
+	<link href="/data/bootstrap/css/bootstrap-editable.css" rel="stylesheet" />
+	<link href="/data/bootstrap/css/bootstrap-table.min.css" rel="stylesheet" />
+	<link href="/data/bootstrap/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+	<link href="/data/bootstrap/css/file_input/fileinput.min.css" rel="stylesheet"/>
+	<link href="/data/bootstrap/css/file_input/fileinput-rtl.min.css" rel="stylesheet"/> 
+
+<!--[if lt IE 9]>
+<script src="js/html5shiv.js"></script>
+<script src="js/respond.min.js"></script>
+<![endif]-->
+
+</head>
+
+<body>
+
+	<div>
+		<div class="neato-header" style="text-align: center;">
+			<p>XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</p>
+		</div>
+		<div class="col-xs-4 col-sm-4 col-md-4 col-xs-offset-8 col-sm-offset-8 col-md-offset-8">yyyy</div>
+		<div>
+			<div class="col-xs-8 col-sm-8 col-md-8">xxxx</div>
+			<div class="col-xs-4 col-sm-4 col-md-4">zzzz</div>
+		</div>
+		<div>
+			<table id = "TableStyle"></table>
+		</div>
+		<div>
+			<div class="col-xs-4 col-sm-4 col-md-4">xxxx</div>
+			<div class="col-xs-4 col-sm-4 col-md-4">yyyy</div>
+			<div class="col-xs-4 col-sm-4 col-md-4">zzzz</div>
+		</div>
+		<div>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</div>
+	</div>
+	
+
+
+	<script src="/data/bootstrap/js/jquery-1.11.1.min.js"></script>
+	<script src="/data/bootstrap/js/bootstrap.min.js"></script>
+	<script src="/data/bootstrap/js/bootstrap-editable.min.js"></script>
+	<script src="/data/bootstrap/js/bootstrap-table.min.js"></script>
+	<script src="/data/bootstrap/js/file_input/fileinput.min.js"></script>
+	<script src="/data/bootstrap/js/bootbox.min.js"></script>
+	<script src="/data/bootstrap/js/bootstrap-datetimepicker.min.js"></script>
+	<script type="text/javascript">
+
+		var table = [
+			//{field: "id",title: "ID",align: 'center',sortable: true,},
+			{field: "name",title: "NAEM",align: 'center',footerFormatter: '合计'},
+			{field: "date",title: "DATE",align: 'center',},
+			{field: "price",title: "PRICE",align: 'center',
+				footerFormatter: function (data) {
+					var count = 0;
+			        for (var i in data) {
+			            count += parseFloat(data[i].price);
+			        }
+			        return count;
+				}
+			},
+		];
+		$("#TableStyle").bootstrapTable({
+			url:"/welcome/data_list",
+			showFooter:true,
+			uniqueId: "ID",
+			columns:table,
+		});
+	</script>
+</body>
+
+</html>

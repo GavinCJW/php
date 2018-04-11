@@ -8,7 +8,7 @@
 	<link href="/data/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
 	<link href="/data/bootstrap/css/styles.css" rel="stylesheet"/>
 	<link href="/data/bootstrap/css/bootstrap-editable.css" rel="stylesheet" />
-	<link href="/data/bootstrap/css/bootstrap-table.css" rel="stylesheet" />
+	<link href="/data/bootstrap/css/bootstrap-table.min.css" rel="stylesheet" />
 	<link href="/data/bootstrap/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
 	<link href="/data/bootstrap/css/file_input/fileinput.min.css" rel="stylesheet"/>
 	<link href="/data/bootstrap/css/file_input/fileinput-rtl.min.css" rel="stylesheet"/> 
@@ -124,7 +124,7 @@
 								</ul>
 							</div>
 						</div>
-						<table id = "TableStyle"/>
+						<table id = "TableStyle"></table>
 
 						<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 							<div class="modal-dialog">
@@ -209,14 +209,35 @@
 									<div class="modal-header">
 										<h4 class="modal-title" id="modal_import">导入</h4>
 									</div>
+									<div class="modal-body">
 										<div class="form-group">
 											<label for="File">File input</label>
 											<input type="file" name="File" class="form-control" id="btn_import">
 											<p class="help-block">Example block-level help text here.</p>
 										</div>
+									</div>
 								</div><!-- /.modal-content -->
 							</div><!-- /.modal -->
 						</div><!-- 导入 -->
+						<div style="display:none;">
+							<div id="data_show1">
+								<div style="text-align: center;">
+									<p>XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</p>
+								</div>
+								<div class="col-xs-4 col-sm-4 col-md-4 col-xs-offset-8 col-sm-offset-8 col-md-offset-8">yyyy</div>
+								<div>
+									<div class="col-xs-8 col-sm-8 col-md-8">xxxx</div>
+									<div class="col-xs-4 col-sm-4 col-md-4">zzzz</div>
+								</div>
+								<table id = "aaaa"></table>
+								<div>
+									<div class="col-xs-4 col-sm-4 col-md-4">xxxx</div>
+									<div class="col-xs-4 col-sm-4 col-md-4">yyyy</div>
+									<div class="col-xs-4 col-sm-4 col-md-4">zzzz</div>
+								</div>
+								xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -227,10 +248,11 @@
 	<script src="/data/bootstrap/js/jquery-1.11.1.min.js"></script>
 	<script src="/data/bootstrap/js/bootstrap.min.js"></script>
 	<script src="/data/bootstrap/js/bootstrap-editable.min.js"></script>
-	<script src="/data/bootstrap/js/bootstrap-table.js"></script>
+	<script src="/data/bootstrap/js/bootstrap-table.min.js"></script>
 	<script src="/data/bootstrap/js/file_input/fileinput.min.js"></script>
 	<script src="/data/bootstrap/js/bootbox.min.js"></script>
 	<script src="/data/bootstrap/js/bootstrap-datetimepicker.min.js"></script>
+	<script src="/data/bootstrap/js/print/jquery-print.js"></script>
 	<script src="/data/js/home.js"></script>
 </body>
 

@@ -53,6 +53,13 @@ function Delete(value){
     });*/
 }
 
+function Print(value){
+	$.post('/Welcome/show',{id: value},function (result) {
+	if(result) $("#data_show").html(result);$("#data_show1").print({});})
+	.error(function() {box('alert','接口详情','获取失败！');}); 
+	$("#data_show").html('');
+}
+
 $(function(){
 	var table = [
 		{checkbox: true,},
@@ -60,7 +67,7 @@ $(function(){
 		{field: "name",title: "NAEM",align: 'center',sortable: true,},
 		{field: "date",title: "DATE",align: 'center',sortable: true,},
 		{field: "price",title: "PRICE",align: 'center',sortable: true,},
-		{field: "button",title: "操作",align: 'center',formatter: function(value,row,index){return "<a href='#' onclick='Editor("+index+");' class='glyphicon glyphicon-pencil' style = 'text-decoration:none' data-toggle='modal' data-target='#modal_edit' />&nbsp;&nbsp;<a href='#' onclick='Delete("+row.id+");' class='glyphicon glyphicon-remove' style = 'text-decoration:none'>";},}
+		{field: "button",title: "操作",align: 'center',formatter: function(value,row,index){return "<a href='#' onclick='Editor("+index+");' class='glyphicon glyphicon-pencil' style = 'text-decoration:none;margin: 0 3px;' data-toggle='modal' data-target='#modal_edit' /><a href='#' onclick='Delete("+row.id+");' class='glyphicon glyphicon-remove' style = 'text-decoration:none;margin: 0 3px;'><a href='#' onclick='Print("+row.id+");' class='glyphicon glyphicon-print' style = 'text-decoration:none;margin: 0 3px;'>";},}
 	];
 	$("#TableStyle").bootstrapTable({
 		url:"/welcome/data_list",
@@ -70,7 +77,6 @@ $(function(){
 		cache: false, //是否缓存
 		pagination:true,//是否显示分页
         showRefresh:true,
-		showToggle:true,//切换视图
 		showColumns:true,//显示所有列
 		uniqueId:"id",//主键
 		sortName:"id",//默认排序字段
@@ -138,5 +144,25 @@ $(function(){
 		forceParse: 0,
 		startDate: $("#C").val(),
     });
+
+    var bbb = [
+		//{field: "id",title: "ID",align: 'center',sortable: true,},
+		{field: "name",title: "NAEM",align: 'center',footerFormatter: '合计'},
+		{field: "date",title: "DATE",align: 'center',},
+		{field: "price",title: "PRICE",align: 'center',
+			footerFormatter: function (data) {
+				var count = 0;
+		        for (var i in data) {
+		            count += parseFloat(data[i].price);
+		        }
+		        return count;
+			}
+		},
+	];
+	$("#aaaa").bootstrapTable({
+		url:"/welcome/data_list",
+		showFooter:true,
+		columns:bbb,
+	});
 
 });

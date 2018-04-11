@@ -8,7 +8,7 @@
 	<link href="/data/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
 	<link href="/data/bootstrap/css/styles.css" rel="stylesheet"/>
 	<link href="/data/bootstrap/css/bootstrap-editable.css" rel="stylesheet" />
-	<link href="/data/bootstrap/css/bootstrap-table.css" rel="stylesheet" />
+	<link href="/data/bootstrap/css/bootstrap-table.min.css" rel="stylesheet" />
 	<link href="/data/bootstrap/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
 	<link href="/data/bootstrap/css/file_input/fileinput.min.css" rel="stylesheet"/>
 	<link href="/data/bootstrap/css/file_input/fileinput-rtl.min.css" rel="stylesheet"/> 
@@ -25,7 +25,7 @@
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="panel panel-default">
-				<div class="panel-heading">Table</div>
+				<div class="panel-heading">接口</div>
 				<div class="panel-body">
 					<div id="toolbar" class="btn-group">
 						<button type="button" class="btn btn-default " data-toggle="modal" data-target="#myModal">
@@ -37,11 +37,11 @@
 					</div>
 					<table id = "TableStyle"/>
 
-					<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal fade" id="myModal" tabindex="-1" role="dialog"  aria-hidden="true">
 						<div class="modal-dialog">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h4 class="modal-title" id="myModalLabel">新增</h4>
+									<h4 class="modal-title" id="">新增</h4>
 								</div>
 								<div class="modal-body">
 									<div class="form-group">
@@ -67,7 +67,6 @@
 										</select>
 									</div>
 									<div class="form-group">
-									<div class="form-group">
 										<label for="redata">返回数据</label>
 										<textarea id="redata" class="form-control" rows="3" placeholder="请书写JSON格式..."></textarea>
 									</div>
@@ -80,30 +79,39 @@
 						</div><!-- /.modal -->
 					</div><!-- 新增 -->
 
-					<div class="modal fade" id="modal_edit" tabindex="-1" role="dialog" aria-labelledby="modal-edit" aria-hidden="true">
+					<div class="modal fade" id="modal_edit" tabindex="-1" role="dialog"  aria-hidden="true">
 						<div class="modal-dialog">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h4 class="modal-title" id="modal-edit">修改</h4>
+									<h4 class="modal-title">修改</h4>
 								</div>
 								<div class="modal-body">
-									<input type="hidden" class="form-control" id="ID">
+									<input type="hidden" class="form-control" id="edit_ID">
 									<div class="form-group">
-										<label for="Email">Name</label>
-										<input type="email" class="form-control" id="A" placeholder="Email">
+										<label for="url">url名称</label>
+										<input type="text" class="form-control" id="edit_url" readonly="readonly">
 									</div>
 									<div class="form-group">
-										<label for="Password">Price</label>
-										<input type="number" class="form-control" id="B" placeholder="Password">
+										<label for="uptype">上传类型</label>
+										<select id="edit_uptype" class="form-control">
+											<option value="1">Post</option>
+											<option value="0">Get</option>
+										</select>
 									</div>
 									<div class="form-group">
-										<label for="Date">Date Picking</label>
-										<div class="input-group date col-md-5" id="form_date">
-											<input class="form-control" size="16" type="text" id="C" readonly>
-											<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-											<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-										</div>
-
+										<label for="updata">上传数据</label>
+										<textarea id="edit_updata" class="form-control" rows="3" placeholder="请书写JSON格式..."></textarea>
+									</div>
+									<div class="form-group">
+										<label for="retype">返回类型</label>
+										<select id="edit_retype" class="form-control">
+											<option value="0">JSON</option>
+											<option value="1">Array</option>
+										</select>
+									</div>
+									<div class="form-group">
+										<label for="redata">返回数据</label>
+										<textarea id="edit_redata" class="form-control" rows="3" placeholder="请书写JSON格式..."></textarea>
 									</div>
 								</div>
 								<div class="modal-footer">
@@ -114,6 +122,19 @@
 						</div><!-- /.modal -->
 					</div><!-- 修改 -->
 
+					<div class="modal fade" id="modal_show" tabindex="-1" role="dialog" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h4 class="modal-title">接口详情</h4>
+								</div>
+								<div class="modal-body">
+									<pre id="data_show" style = "white-space: pre-wrap;"></pre>
+								</div>
+							</div><!-- /.modal-content -->
+						</div><!-- /.modal -->
+					</div><!-- 详情 -->
+
 				</div>
 			</div>
 		</div>
@@ -122,7 +143,7 @@
 	<script src="/data/bootstrap/js/jquery-1.11.1.min.js"></script>
 	<script src="/data/bootstrap/js/bootstrap.min.js"></script>
 	<script src="/data/bootstrap/js/bootstrap-editable.min.js"></script>
-	<script src="/data/bootstrap/js/bootstrap-table.js"></script>
+	<script src="/data/bootstrap/js/bootstrap-table.min.js"></script>
 	<script src="/data/bootstrap/js/file_input/fileinput.min.js"></script>
 	<script src="/data/bootstrap/js/bootbox.min.js"></script>
 	<script src="/data/bootstrap/js/bootstrap-datetimepicker.min.js"></script>
