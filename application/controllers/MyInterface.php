@@ -6,7 +6,7 @@ class MyInterface extends CI_Controller {
 	//#MyInterface
 //897761051ef87b1a2cc96a1663f2e8f0/MyInterface/test_start
 public function test(){
-	$input = $this->input->post();
+	$input = $this->input->get();
 	$fields = array();
 		foreach ($fields as $val)
 			if (!isset($input[$val]))

@@ -1,32 +1,5 @@
-function box(type , title , message , func = null){
-	if(type == 'alert'){
-		bootbox.alert({
-			size: "small",
-        	title: title,
-        	message: message, 
-            callback: func
-        });
-	}else if(type == 'confirm'){
-		bootbox.confirm({
-			size: "small",
-			title: title,
-        	message: message, 
-            callback: func
-		});
-	}
-}
-
-function isJsonFormat( str ) {  
-    try {  
-        $.parseJSON(str);  
-    } catch (e) {  
-        return false;  
-    }  
-    return true;  
-}  
-
 function Editor(value){
-	var allTableData = $("#TableStyle").bootstrapTable('getData');
+	allTableData = $("#TableStyle").bootstrapTable('getData');
 	//console.log(allTableData[value].name);
 	$("#ID").val(allTableData[value].id);
 	$("#A").val(allTableData[value].name);
@@ -35,7 +8,7 @@ function Editor(value){
 }
 
 function Delete(value){
-	var arr = [value];
+	arr = [value];
 	$.post('/welcome/delete',{id: arr},function (result) {if(result) box('alert','确认删除','删除成功！',function(){window.location.reload();});},'json')
 	.error(function() {box('alert','确认删除','删除失败！');});
 	/*$.ajax({
@@ -54,14 +27,11 @@ function Delete(value){
 }
 
 function Print(value){
-	$.post('/Welcome/show',{id: value},function (result) {
-	if(result) $("#data_show").html(result);$("#data_show1").print({});})
-	.error(function() {box('alert','接口详情','获取失败！');}); 
-	$("#data_show").html('');
+	$("#data_show").print({});
 }
 
 $(function(){
-	var table = [
+	table = [
 		{checkbox: true,},
 		//{field: "id",title: "ID",align: 'center',sortable: true,},
 		{field: "name",title: "NAEM",align: 'center',sortable: true,},
@@ -75,6 +45,7 @@ $(function(){
 		search:true,//显示搜索框
 		striped: true, //行渐变色
 		cache: false, //是否缓存
+		showToggle:true,
 		pagination:true,//是否显示分页
         showRefresh:true,
 		showColumns:true,//显示所有列
@@ -84,12 +55,14 @@ $(function(){
 		columns:table,
 	});
 
+	$("#qrcode").qrcode(window.location.href);
+
 	$("#btn_delete").click(function(){
-		var opts = $("#TableStyle").bootstrapTable('getSelections');  
+		opts = $("#TableStyle").bootstrapTable('getSelections');  
 		if (opts == "") {  
 			box('alert','确认删除','请选择要删除的数据！');
 		}  else {  
-			var idArray = [];  
+			idArray = [];  
 			for (i in opts) 
 				idArray.push(opts[i].id);  
 			box('confirm','确认删除',"确定删除：" + idArray + "吗？",
@@ -122,7 +95,7 @@ $(function(){
 	});
 
 	$("#btn_edit").click(function(){
-		var data = {
+		data = {
 			id: $("#ID").val(),
 			name:  $("#A").val(),
 			price: $("#B").val(),
@@ -145,14 +118,14 @@ $(function(){
 		startDate: $("#C").val(),
     });
 
-    var bbb = [
+    bbb = [
 		//{field: "id",title: "ID",align: 'center',sortable: true,},
 		{field: "name",title: "NAEM",align: 'center',footerFormatter: '合计'},
 		{field: "date",title: "DATE",align: 'center',},
 		{field: "price",title: "PRICE",align: 'center',
 			footerFormatter: function (data) {
-				var count = 0;
-		        for (var i in data) {
+				count = 0;
+		        for (i in data) {
 		            count += parseFloat(data[i].price);
 		        }
 		        return count;
@@ -161,7 +134,6 @@ $(function(){
 	];
 	$("#aaaa").bootstrapTable({
 		url:"/welcome/data_list",
-		showFooter:true,
 		columns:bbb,
 	});
 
