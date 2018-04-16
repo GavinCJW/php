@@ -9,10 +9,10 @@ function Editor(value){
 
 function Delete(value){
 	arr = [value];
-	$.post('/home/delete',{id: arr},function (result) {if(result) box('alert','确认删除','删除成功！',function(){window.location.reload();});},'json')
+	$.post('/table/delete',{id: arr},function (result) {if(result) box('alert','确认删除','删除成功！',function(){window.location.reload();});},'json')
 	.error(function() {box('alert','确认删除','删除失败！');});
 	/*$.ajax({
-		url: '/home/delete',
+		url: '/table/delete',
 		type: 'POST',
 		dataType: 'json',
 		data: {id: value},
@@ -40,7 +40,7 @@ $(function(){
 		{field: "button",title: "操作",align: 'center',formatter: function(value,row,index){return "<a href='#' onclick='Editor("+index+");' class='glyphicon glyphicon-pencil' style = 'text-decoration:none;margin: 0 3px;' data-toggle='modal' data-target='#modal_edit' /><a href='#' onclick='Delete("+row.id+");' class='glyphicon glyphicon-remove' style = 'text-decoration:none;margin: 0 3px;'><a href='#' onclick='Print("+row.id+");' class='glyphicon glyphicon-print' style = 'text-decoration:none;margin: 0 3px;'>";},}
 	];
 	$("#TableStyle").bootstrapTable({
-		url:"/home/data_list",
+		url:"/table/data_list",
 		searchAlien:"right",//搜索框位置
 		search:true,//显示搜索框
 		striped: true, //行渐变色
@@ -68,7 +68,7 @@ $(function(){
 			box('confirm','确认删除',"确定删除：" + idArray + "吗？",
 				function(result){ 
 					if(result) 
-						$.post('/home/delete',{id: idArray},function (result) {if(result) box('alert','确认删除','删除成功！',function(){window.location.reload();});},'json')
+						$.post('/table/delete',{id: idArray},function (result) {if(result) box('alert','确认删除','删除成功！',function(){window.location.reload();});},'json')
 						.error(function() {box('alert','确认删除','删除失败！');});
 			}); 
 		}  
@@ -77,21 +77,21 @@ $(function(){
 	$("#File").fileinput({
 		showUpload:true,//显示上传按钮
 		showRemove:true,//显示移除按钮
-		uploadUrl:"/home/do_upload",
+		uploadUrl:"/table/do_upload",
 		enctype : 'multipart/form-data',
 	});
 
     $("#btn_import").fileinput({
 		showUpload:true,//显示上传按钮
 		showRemove:true,//显示移除按钮
-		uploadUrl:"/home/importExecl",
+		uploadUrl:"/table/importExecl",
 		enctype : 'multipart/form-data',
 		//allowedFileExtensions: ['xlsx','xls'],
 	});
 
 	$("#btn_excel").click(function(event) {
-		$("#btn_excel").attr("href","/home/exportExcel");
-		//window.open("/home/exportExcel");
+		$("#btn_excel").attr("href","/table/exportExcel");
+		//window.open("/table/exportExcel");
 	});
 
 	$("#btn_edit").click(function(){
@@ -102,7 +102,7 @@ $(function(){
 			date: $("#C").val()
 		};
 		console.log(data);
-		$.post("/home/edit",data,function (result) {if(result) box('alert','确认修改','修改成功！',function(){window.location.reload();});},'json')
+		$.post("/table/edit",data,function (result) {if(result) box('alert','确认修改','修改成功！',function(){window.location.reload();});},'json')
 		.error(function() {box('alert','确认修改','修改失败！');});
 	});
 
@@ -133,7 +133,7 @@ $(function(){
 		},
 	];
 	$("#aaaa").bootstrapTable({
-		url:"/home/data_list",
+		url:"/table/data_list",
 		columns:bbb,
 	});
 

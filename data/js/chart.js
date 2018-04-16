@@ -12,7 +12,7 @@ $(function(){
 		bc[i] = color_a(color_arr[i],1);
 	}
 
-	$.get("/welcome/data_list",function(result){
+	$.get("/home/data_list",function(result){
 		labels = [];
 		data = [];
 		for(i in result){
