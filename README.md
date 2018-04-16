@@ -1,6 +1,6 @@
 # php_build
 
-##Bootstrap&CodeIgniter##
+## Bootstrap&CodeIgniter
 
     
 
@@ -21,7 +21,7 @@
         
 ----------
 
-##结构##
+## 结构
  1. Home：
 
         测试专用，新增的功能都会在这里先进行测试，该页面无迹可寻...
