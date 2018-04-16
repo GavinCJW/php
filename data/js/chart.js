@@ -1,7 +1,5 @@
 
 $(function(){
-
-	ctx1 = $("#myChart1")[0].getContext('2d');
 	color_arr = [];
 	bgc = [];
 	bc =[];
@@ -14,28 +12,41 @@ $(function(){
 		bc[i] = color_a(color_arr[i],1);
 	}
 
-	chart1 = new Chart(ctx1, {
-	    type: 'bar',
-	    data: {
-	        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-	        datasets: [{
-	            label: '# of Votes',
-	            data: [12, 19, 3, 5, 2, 3],
-	            backgroundColor: bgc,
-	            borderColor: bc,
-	            borderWidth: 1
-	        }]
-	    },
-	    options: {
-	        scales: {
-	            yAxes: [{
-	                ticks: {
-	                    beginAtZero:true
-	                }
-	            }]
-	        }
-	    }
-	});
+	$.get("/welcome/data_list",function(result){
+		labels = [];
+		data = [];
+		for(i in result){
+			labels[i] = result[i].name;
+			data[i] = result[i].price;
+		}
+		ctx1 = $("#myChart1")[0].getContext('2d');
+		chart1 = new Chart(ctx1, {
+		    type: 'bar',
+		    data: {
+		        labels: labels,
+		        datasets: [{
+		            label: '# of Votes',
+		            data: data,
+		            backgroundColor: bgc,
+		            borderColor: bc,
+		            borderWidth: 1
+		        }]
+		    },
+		    options: {
+		        scales: {
+		            yAxes: [{
+		                ticks: {
+		                    beginAtZero:true
+		                }
+		            }]
+		        }
+		    }
+		});
+	},'json').error(function() {box('alert','获取数据','获取数据失败！');});;
+
+	
+
+	
 	arr = [];
 	for(i = 0 ; i < 6 ; i++){
 		arr[i] = random(100);
