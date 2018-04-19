@@ -11,5 +11,12 @@ class Widget extends CI_Controller {
 		$this->load->view('widget.html');
 	}
 
+	public function test(){
+		$this->load->model(array("Model_WebSocket") );
+
+		$ws = $this->Model_WebSocket->ws();
+
+	}
+
 	
 }
