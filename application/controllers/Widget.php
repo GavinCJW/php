@@ -12,7 +12,7 @@ class Widget extends CI_Controller {
 	}
 
 	public function test(){
-		$this->load->model(array("Model_WebSocket") );
+		$this->load->model(array("Model_webSocket") );
 
 		$ws = $this->Model_WebSocket->ws();
 

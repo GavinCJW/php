@@ -239,7 +239,7 @@ class WS{
     /*
         生成webSocket数据帧
     */
-    public function encodeData($msg) {
+    private function encodeData($msg) {
         $frame = [];
         $frame[0] = '81';
         $len = strlen($msg);

@@ -1,43 +1,144 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title></title>
-    <meta http-equiv="content-type" content="text/html;charset=utf-8">
-    <style>
-        p {
-            text-align: left;
-            padding-left: 20px;
-        }
-    </style>
-</head>
-<body>
-<div style="width: 800px;height: 600px;margin: 30px auto;text-align: center">
-    <h1>websocket聊天室</h1>
-    <div style="width: 800px;border: 1px solid gray;height: 300px;">
-        <div style="width: 200px;height: 300px;float: left;text-align: left;">
-            <p><span>当前在线:</span><span id="user_num">0</span></p>
-            <div id="user_list" style="overflow: auto;">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Lumino - Widgets</title>
 
+        <link href="/data/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+        <link href="/data/bootstrap/css/styles.css" rel="stylesheet"/>
+        <style>
+            p {
+                text-align: left;
+                padding-left: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#"><span>Lumino</span>Admin</a>
+                    <ul class="user-menu">
+                        <li class="dropdown pull-right">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> User <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
+                                <li><a href="#"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
+                                <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div><!-- /.container-fluid -->
+        </nav>
+
+        <div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
+            <form role="search">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search">
+                </div>
+            </form>
+            <ul class="nav menu">
+                <li><a href="/"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+                <li class="active"><a href="/Widget"><span class="glyphicon glyphicon-th"></span> Widgets</a></li>
+                <li><a href="/Chart"><span class="glyphicon glyphicon-stats"></span> Charts</a></li>
+                <li><a href="/Table"><span class="glyphicon glyphicon-list-alt"></span> Tables</a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-pencil"></span> Forms</a></li>
+                <li><a href="/SystemInterface"><span class="glyphicon glyphicon-info-sign"></span> System &amp; Interface</a></li>
+                <li class="parent ">
+                    <a href="#">
+                        <span class="glyphicon glyphicon-list"></span> Dropdown <span data-toggle="collapse" href="#sub-item-1" class="icon pull-right"><em class="glyphicon glyphicon-s glyphicon-plus"></em></span> 
+                    </a>
+                    <ul class="children collapse" id="sub-item-1">
+                        <li>
+                            <a class="" href="#">
+                                <span class="glyphicon glyphicon-share-alt"></span> Sub Item 1
+                            </a>
+                        </li>
+                        <li>
+                            <a class="" href="#">
+                                <span class="glyphicon glyphicon-share-alt"></span> Sub Item 2
+                            </a>
+                        </li>
+                        <li>
+                            <a class="" href="#">
+                                <span class="glyphicon glyphicon-share-alt"></span> Sub Item 3
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li role="presentation" class="divider"></li>
+                <li><a href="#"><span class="glyphicon glyphicon-user"></span> Login Page</a></li>
+            </ul>
+            <div class="attribution">More Templates </div>
+        </div><!--/.sidebar-->
+
+        <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+            <div class="row">
+                <ol class="breadcrumb">
+                    <li><a href="#"><span class="glyphicon glyphicon-th"></span></a></li>
+                    <li class="active">Widgets</li>
+                </ol>
+            </div><!--/.row-->
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">widgets</h1>
+                </div>
+            </div><!--/.row-->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">聊天室</div>
+                        <div class="panel-body">
+                            <div style="width: 800px;height: 600px;margin: 30px auto;text-align: center">
+                                <h1>websocket聊天室</h1>
+                                <div style="width: 800px;border: 1px solid gray;height: 300px;">
+                                    <div style="width: 200px;height: 300px;float: left;text-align: left;">
+                                        <p><span>当前在线:</span><span id="user_num">0</span></p>
+                                        <div id="user_list" style="overflow: auto;">
+
+                                        </div>
+                                    </div>
+                                    <div id="msg_list" style="width: 598px;border:  1px solid gray; height: 300px;overflow: scroll;float: left;">
+                                    </div>
+                                </div>
+                                <br>
+                                <textarea id="msg_box" rows="6" cols="50" onkeydown="confirm(event)"></textarea>
+                                <br>
+                                <input type="button" value="发送" onclick="send()">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div id="msg_list" style="width: 598px;border:  1px solid gray; height: 300px;overflow: scroll;float: left;">
-        </div>
-    </div>
-    <br>
-    <textarea id="msg_box" rows="6" cols="50" onkeydown="confirm(event)"></textarea><br>
-    <input type="button" value="发送" onclick="send()">
-</div>
-</body>
+
+        <script src="/data/bootstrap/js/jquery-1.11.1.min.js"></script>
+        <script src="/data/bootstrap/js/bootstrap.min.js"></script>
+        <script src="/data/bootstrap/js/bootbox.min.js"></script>
+        <script src="/data/bootstrap/js/Chart.min.js"></script>
+        <script src="/data/js/tool.js"></script>
+        
+    </body>
 </html>
 
 <script type="text/javascript">
     // 存储用户名到全局变量,握手成功后发送给服务器
     var uname = prompt('请输入用户名', 'user' + uuid(8, 16));
-    var ws = new WebSocket("ws://127.0.0.1:2000");
+    var ws = new WebSocket("ws://127.0.0.1:8888/websocket");
     ws.onopen = function () {
         var data = "系统消息：建立连接成功";
         listMsg(data);
     };
+    /*box('prompt','获取数据','user' + uuid(8, 16),function(result){console.log(uname); if(result != null && result != ''){ uname = result; console.log(result);}});*/
     /**
      * 分析服务器返回信息
      *
@@ -125,12 +226,14 @@
         while(user_list.hasChildNodes()) {
             user_list.removeChild(user_list.firstChild);
         }
+        var number = 0;
         for (var index in name_list) {
             var user = document.createElement("p");
             user.innerHTML = name_list[index];
             user_list.appendChild(user);
+            number++;
         }
-        user_num.innerHTML = name_list.length;
+        user_num.innerHTML = number;
         user_list.scrollTop = user_list.scrollHeight;
         var change = type == 'login' ? '上线' : '下线';
         var data = '系统消息: ' + user_name + ' 已' + change;

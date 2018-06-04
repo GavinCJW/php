@@ -13,6 +13,13 @@ var box = function (type , title , message , func = null , size = "small"){
             message: message, 
             callback: func
         });
+    }else if(type == 'prompt'){
+        bootbox.prompt({
+            size: size,
+            title: title,
+            message: message, 
+            callback: func
+        });
     }
 };
 
