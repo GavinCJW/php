@@ -1,4 +1,6 @@
 # PHP
+[PHP文档][1]
+
 ---
 ## PHP基础
 ### 闭包
@@ -373,3 +375,4 @@ use const some\namespace\{ConstA, ConstB, ConstC};
   /*深克隆，通过序列化与反序列化的方式进行克隆*/
   $E = unserialize(serialize($A));
 ```
+  [1]: http://www.php.net/manual/zh/
