@@ -134,4 +134,12 @@
   同时在调用next前传递一个参数将当前的yield的值替换，
   因此可以将current()作为send()的参数传入，$gen->send($gen->current())
   */
+  (PHP7)Generator::getReturn() 
+  $gen = (function(){
+    echo yield "a";
+    echo yield "b";
+    return 0;
+  })();
+  echo $gen->getReturn();  
+  /*输出结果：0*/
 ```
