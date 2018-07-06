@@ -24,7 +24,7 @@ class Model_excelOper extends CI_Model {
 				$number = $sheet->getHighestRow() + 1 - $val['row'];
 				for ($i=0; $i < $number; $i++) {
 					foreach ($val['fieldKey'] as $k=>$v){
-						$ret[$key][$i][$v] = trim($sheet->getCellByColumnAndRow($k,$i+$val['row'])->getValue());
+						$ret[$key][$i][$v] = trim($sheet->getCellByColumnAndRow($k,$i+$val['row'])->getFormattedValue());
 					}
 				}
 			}

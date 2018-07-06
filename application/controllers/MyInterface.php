@@ -11,7 +11,7 @@ public function test(){
 		foreach ($fields as $val)
 			if (!isset($input[$val]))
 				return false;
-	echo '{"a":"test","b":"test"}';
+	var_dump(json_decode('{"a":"test","b":"test"}',true));
 }
 //897761051ef87b1a2cc96a1663f2e8f0/MyInterface/test_end
 	
