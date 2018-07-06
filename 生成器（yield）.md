@@ -142,4 +142,16 @@
   })();
   echo $gen->getReturn();  
   /*输出结果：0*/
+  //(PHP7)生成器委派
+  function gen()
+  {
+    yield 1;
+    yield 2;
+    yield from gen2();
+  }
+  function gen2()
+  {
+    yield 3;
+    yield 4;
+  }
 ```
