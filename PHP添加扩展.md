@@ -1,0 +1,56 @@
+# PHP
+---
+## PHP基础
+>C++扩展
+>>Windows 
+  - 借助cygwin，工具生成扩展项目文件夹（请下载cygwin,打开cmd输入"cygcheck -c cygwin"，如果status为ok即安装是否成功）
+  - 下载php源码(php-xxxx.tar.gz)并将win32\build\config.w32.h.in复制到main文件夹下并修改名字为config.w32.h
+     PHP5的源码是用VC编译的所以带有skeleton.dsp文件可以通过VC++，VS等编译器直接编译，
+     如果是PHP7由于不在包含dsp无法直接转换为VC++，VS等编译器可打开的项目，具体操作请参看后续方式
+  - 在系统环境变量中将正在使用的PHP的路径添加，然后cmd进入php源码的ext文件夹里（包含ext_skel_win32.php,ext_skel文件和skeleton文件夹），
+    执行"php ext_skel_win32.php --extname=xxx"，然后ext文件夹下会出现xxx文件夹，里面包含（php_xxx.dsp(php7不会生成),php_xxx.h,php_xxx.c,xxx.php,config.m4,config.w32）
+  - PHP7添加dsp文件，可通过下载PHP5源码，然后复制skeleton文件夹下的skeleton.dsp文件，然后在ext下新建一个create_dsp.php
+  ```PHP
+  <?php
+    $extname='';
+    $skel = "skeleton";
+    foreach($argv as $arg) {
+        if(strtolower(substr($arg, 0, 9)) == "--extname") {
+            $extname= substr($arg, 10);
+        }
+        if(strtolower(substr($arg, 0, 6)) == "--skel") {
+            $skel= substr($arg, 7);
+        }
+    }
+
+    $fp = fopen("$skel/skeleton.dsp","rb");
+    if ($fp) {
+        $dsp_file =fread($fp, filesize("$skel/skeleton.dsp"));
+        fclose($fp);
+        $dsp_file =str_replace("extname", $extname, $dsp_file);
+        $dsp_file =str_replace("EXTNAME", strtoupper($extname), $dsp_file);
+        $fp =fopen("$extname/$extname.dsp", "wb");
+        if ($fp) {
+            fwrite($fp,$dsp_file);
+            fclose($fp);
+        }
+    }
+
+    $fp =fopen("$extname/$extname.php", "rb");
+    if ($fp) {
+        $php_file =fread($fp, filesize("$extname/$extname.php"));
+        fclose($fp);
+        $php_file =str_replace("dl('", "dl('php_", $php_file);
+        $fp =fopen("$extname/$extname.php", "wb");
+        if ($fp) {
+            fwrite($fp,$php_file);
+            fclose($fp);
+        }
+    }
+    ?>
+  ```
+  并在cmd中执行"php create_dsp.php --extname=xxx"，就可以在xxx文件夹下看到xxx.dsp文件了，这时候通过VS打开xxx.dsp转换一下就是WIN32项目了。
+  - 在VS中选择链接器，附加库目录，加载你当前使用的PHP下的dev文件夹下的lib，然后生成DLL文件即可，将生成的dll文件放到正在使用的PHP目录下的ext文件里，并在php.ini中添加该扩展，重启PHP。
+    可能会遇到编译不同或线程安全的问题，
+    线程方面设置(#define ZTS TS ， #undef ZTS NTS)，
+    编译方面设置（在php_src\main\config.w32.h文件中增加 #define PHP_COMPILER_ID "VC14"（VC几看启动php-cgi报错的提示））
