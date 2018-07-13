@@ -375,4 +375,216 @@ use const some\namespace\{ConstA, ConstB, ConstC};
   /*深克隆，通过序列化与反序列化的方式进行克隆*/
   $E = unserialize(serialize($A));
 ```
+
+
+### C++扩展
+>Windows 
+  - 借助cygwin，工具生成扩展项目文件夹（请下载cygwin,打开cmd输入"cygcheck -c cygwin"，如果status为ok即安装是否成功）
+  - 下载php源码(php-xxxx.tar.gz)并将win32\build\config.w32.h.in复制到main文件夹下并修改名字为config.w32.h
+     PHP5的源码是用VC编译的所以带有skeleton.dsp文件可以通过VC++，VS等编译器直接编译，
+     如果是PHP7由于不在包含dsp无法直接转换为VC++，VS等编译器可打开的项目，具体操作请参看后续方式
+  - 在系统环境变量中将正在使用的PHP的路径添加，然后cmd进入php源码的ext文件夹里（包含ext_skel_win32.php,ext_skel文件和skeleton文件夹），
+    执行"php ext_skel_win32.php --extname=xxx"，然后ext文件夹下会出现xxx文件夹，里面包含（php_xxx.dsp(php7不会生成),php_xxx.h,php_xxx.c,xxx.php,config.m4,config.w32）
+  - PHP7添加dsp文件，可通过下载PHP5源码，然后复制skeleton文件夹下的skeleton.dsp文件，然后在ext下新建一个create_dsp.php
+  ```PHP
+  <?php
+    $extname='';
+    $skel = "skeleton";
+    foreach($argv as $arg) {
+        if(strtolower(substr($arg, 0, 9)) == "--extname") {
+            $extname= substr($arg, 10);
+        }
+        if(strtolower(substr($arg, 0, 6)) == "--skel") {
+            $skel= substr($arg, 7);
+        }
+    }
+
+    $fp = fopen("$skel/skeleton.dsp","rb");
+    if ($fp) {
+        $dsp_file =fread($fp, filesize("$skel/skeleton.dsp"));
+        fclose($fp);
+        $dsp_file =str_replace("extname", $extname, $dsp_file);
+        $dsp_file =str_replace("EXTNAME", strtoupper($extname), $dsp_file);
+        $fp =fopen("$extname/$extname.dsp", "wb");
+        if ($fp) {
+            fwrite($fp,$dsp_file);
+            fclose($fp);
+        }
+    }
+
+    $fp =fopen("$extname/$extname.php", "rb");
+    if ($fp) {
+        $php_file =fread($fp, filesize("$extname/$extname.php"));
+        fclose($fp);
+        $php_file =str_replace("dl('", "dl('php_", $php_file);
+        $fp =fopen("$extname/$extname.php", "wb");
+        if ($fp) {
+            fwrite($fp,$php_file);
+            fclose($fp);
+        }
+    }
+    ?>
+  ```
+  并在cmd中执行"php create_dsp.php --extname=xxx"，就可以在xxx文件夹下看到xxx.dsp文件了，这时候通过VS打开xxx.dsp转换一下就是WIN32项目了。
+  - 在VS中选择链接器，附加库目录，加载你当前使用的PHP下的dev文件夹下的lib，然后生成DLL文件即可，将生成的dll文件放到正在使用的PHP目录下的ext文件里，并在php.ini中添加该扩展，重启PHP。
+    可能会遇到编译不同或线程安全的问题，
+    线程方面设置(#define ZTS 等于 TS ， #undef ZTS 等于 NTS)，
+    编译方面设置（#define PHP_COMPILER_ID "VC14"（VC几看启动php-cgi报错的提示））
+  - 最后也可以自己创建一个空的win32项目，然后自己写代码，将源码包添加进包路径里，然后添加正在使用的php的dev文件的lib即可，VS属性文件.props
+  ```XML
+    <?xml version="1.0" encoding="utf-8"?>
+      <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+        <ImportGroup Label="PropertySheets" />
+        <PropertyGroup Label="UserMacros" />
+        <PropertyGroup />
+        <ItemDefinitionGroup>
+          <ClCompile>
+            <AdditionalIncludeDirectories>
+              ..\..;..\..\main;..\..\Zend;..\..\TSRM;..\..\win32;
+              %(AdditionalIncludeDirectories)
+            </AdditionalIncludeDirectories>
+          </ClCompile>
+          <Link>
+            <AdditionalLibraryDirectories>
+              ...\dev;%(AdditionalLibraryDirectories)
+            </AdditionalLibraryDirectories>
+            <AdditionalDependencies>php7.lib;%(AdditionalDependencies)</AdditionalDependencies>
+          </Link>
+        </ItemDefinitionGroup>
+        <ItemGroup />
+    </Project>
+  ```
+>扩展开发
+  ```C++
+    //php_test.hpp
+    
+      #pragma once
+      #define ZEND_WIN32
+      #define PHP_WIN32
+      #define ZEND_DEBUG 0
+
+      #ifndef PHP_TEST_H
+      #define PHP_TEST_H
+
+      #ifdef PHP_WIN32  
+      #define PHP_TEST_API __declspec(dllexport)//声明为导出函数
+      #define _STATIC_ASSERT(expr) typedef char __static_assert_t[ (expr)?(expr):1 ]  
+      #elif defined(__GNUC__) && __GNUC__ >= 4
+      #define PHP_PHPTest_API __attribute__ ((visibility("default")))
+      #else  
+      #define PHP_PHPTest_API
+      #define _STATIC_ASSERT(expr) typedef char __static_assert_t[ (expr) ]  
+      #endif  
+
+      //线程安全
+      #ifdef ZTS
+      #include "TSRM.h"
+      #define TEST_G(v) TSRMG(test_globals_id, zend_test_globals *, v)
+      #else
+      #define TEST_G(v) (test_globals.v)
+      #endif
+
+      #ifndef PHP_TEST_VERSION
+      #define PHP_TEST_VERSION NO_VERSION_YET
+      #endif 
+
+      extern "C" {
+      #include "zend_config.w32.h"
+      #include "php.h"
+      #include "ext/standard/info.h"
+      }
+
+      PHP_MINIT_FUNCTION(test);
+      PHP_MSHUTDOWN_FUNCTION(test);
+      PHP_RINIT_FUNCTION(test);
+      PHP_RSHUTDOWN_FUNCTION(test);
+      PHP_MINFO_FUNCTION(test);
+
+      // PHP_FUNCTION  只用来声明函数的名称，置于函数的参数将在cpp中定义 
+      PHP_FUNCTION(test_array);//数组反转
+      #endif/* PHP_TEST_MAIN_H*/
+      
+      //php_test.cpp
+      
+      #include <vector>
+      #include <string>
+      #include "php_test.hpp"
+      #include "php_util.hpp"
+      using namespace std;
+
+      zend_function_entry test_functions[] = {
+        PHP_FE(test_array, NULL)
+        PHP_FE_END
+      };//自定义的函数
+
+      extern zend_module_entry test_module_entry = {
+      #if ZEND_MODULE_API_NO >= 20010901
+        STANDARD_MODULE_HEADER,//扩展头信息
+      #endif
+        "test",//扩展名
+        test_functions,//扩展函数
+        PHP_MINIT(test),
+        PHP_MSHUTDOWN(test),
+        PHP_RINIT(test),
+        PHP_RSHUTDOWN(test),
+        PHP_MINFO(test),
+      #if ZEND_MODULE_API_NO >= 20010901
+        PHP_TEST_VERSION,//版本
+      #endif
+        STANDARD_MODULE_PROPERTIES
+      };
+
+      ZEND_GET_MODULE(test);
+
+      PHP_MINIT_FUNCTION(test){return SUCCESS;}
+      PHP_MSHUTDOWN_FUNCTION(test){return SUCCESS;}
+      PHP_RINIT_FUNCTION(test){return SUCCESS;}
+      PHP_RSHUTDOWN_FUNCTION(test){return SUCCESS;}
+      PHP_MINFO_FUNCTION(test){
+        php_info_print_table_start();
+        php_info_print_table_header(2, "test support", "enabled");
+        php_info_print_table_end();
+      }
+      
+      PHP_FUNCTION(test_array){
+        zval *arr = NULL;
+        /*
+        获取参数,可以获取多个参数，"s|a"表示必传strng类型,可选类型数组
+        php 代码 C/C++
+        boolean b zend_bool
+        long l long
+        double d double
+        string s char*, int
+        resource r zval*
+        array a zval*
+        object o zval*
+        zval z zval*
+        */
+        if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "a", &arr) == FAILURE)
+          RETURN_NULL();
+
+        auto arr_hash = Z_ARRVAL_P(arr);//将zval *转换成zend_array *
+        //自定义函数将zend_array *转换成std::vector<std::map<std::string, std::string>>
+        auto ret = ZEND_ARRAY_TO_MAP(Z_ARRVAL_P(arr));
+        if (ret.empty()) {
+          php_error(E_WARNING, "array key => value must be STRING , LONG , DOUBLE");
+          RETURN_NULL();
+        }
+        array_init_size(return_value, ret.size());//初始化内部返回变量return_value
+        for (auto map : ret) {
+          for (auto val : map) {
+            //两种方式向return_value添加数据
+            /*zval temp;
+            ZVAL_STRING(&temp , val.first.data());
+            zend_hash_update(Z_ARRVAL_P(return_value), strpprintf(0, val.second.data()), &temp);*/
+            add_assoc_string(return_value, val.second.data(), (char *)val.first.data());
+          }
+        }
+      }
+      /*
+        可以在php_test.cpp头加入  #define PHP_COMPILER_ID "VC14" 
+        也可以在预编译上加入PHP_COMPILER_ID="VC14" 
+      */
+  ```
+
   [1]: http://www.php.net/manual/zh/
