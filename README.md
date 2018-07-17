@@ -375,7 +375,19 @@ use const some\namespace\{ConstA, ConstB, ConstC};
   /*深克隆，通过序列化与反序列化的方式进行克隆*/
   $E = unserialize(serialize($A));
 ```
-
+>可变变量,$$
+```PHP
+  $a = "hello";
+  $$a = "world";
+  echo "$a ${$a}"; // 等于echo "$a $hello";,不加{}$$a会被解释为$hello字符串输出
+  $$a[1] = "world";
+  echo ${$a}[1] ;//world
+  echo ${$a[1]} ;//报错
+  /*
+    PHP会优先解释$a为一个变量X，然后在解释$X[1],
+    因此如果使用可变变量在数组与变量间的区别需要用大括号将其括起来，来防止歧义
+  */
+```
 
 ### C++扩展
 >Windows 
