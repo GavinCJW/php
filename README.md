@@ -24,7 +24,7 @@
     }
     
     //析构函数
-    function __construct() {
+    function __destruct() {
     }
    
     
